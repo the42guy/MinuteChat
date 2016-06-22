@@ -1,6 +1,6 @@
 {
   "name": "Minutechat",
-  "tagline": "A tiny little chat application made using basic C++ for a school project.",
-  "body": "# Welcome to Minute Chat's GitHub page\r\n\r\n### Made using C++\r\n\r\n### Works over the LAN\r\n\r\n### Authors and Contributors\r\nCreated by @the42guy and Mayank Jain.\r\n",
+  "tagline": "A tiny chat application made using basic C++ for a school project.",
+  "body": "# Welcome to Minute Chat's GitHub page\r\n\r\n### Made using C++\r\nBeneath Minute Chat lies one of the most trusted languages - C++. You can rest assured about Minute Chat's performance and its stability.\r\n\r\n### Works over the LAN\r\nWell, where else? A school project needs to run on the LAN. \r\n\r\n### Authors and Contributors\r\nCreated by @the42guy and Mayank Jain.\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
