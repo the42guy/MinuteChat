@@ -9,6 +9,10 @@ using namespace std;
 class Message {            //each message class contains name of sender and the message
 	 public:
         char *name, message[500];
+        void inputMessage() {
+            scanf("%499s", message);
+            //gets(message);
+        }
 };
 
 class User {
@@ -61,7 +65,7 @@ void User::chatName(User otherUser) {
 		  }
 	 } while(i == 0);
 	 strcat(chatFileName, ".chat");
-	 chatFileName[nameLen] = '\0';
+	 chatFileName[nameLen+5] = '\0';
 	 cout << "\nChat file is " << chatFileName << "\n";
 	 strcpy(chatLoc, chatFileName);
 	 //return chatFileName;
@@ -77,7 +81,7 @@ void User::showChats(User otherUser, char* loc) {
 				cout << mShow.name << ": ";
 				cout << mShow.message;
 				cout << "\n";
-				cout << "______________________________________________________________\n";
+				cout << "___________________________________________________________\n";
 		  }
 	 }
 
@@ -102,7 +106,8 @@ void User::openChat(User otherUser) {
 				ofstream chatFile(chatLoc, ios::binary|ios::app);
 				cout << "\nEnter message: ";
 				Message m;
-				gets(m.message);
+				m.inputMessage();
+				//cin >> m.message;
 				m.name = getUsername();
 				chatFile.write((char*)&m, sizeof(m));
 				chatFile.close();
