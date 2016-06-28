@@ -6,8 +6,9 @@
 #include <stdio.h>
 
 using namespace std;
-struct Message {            //each message struct contains name of sender and the message
-	 char *name, message[500];
+class Message {            //each message class contains name of sender and the message
+	 public:
+        char *name, message[500];
 };
 
 class User {
