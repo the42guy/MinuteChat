@@ -77,7 +77,7 @@ void User::showChats(User otherUser, char* loc) {
 				cout << mShow.name << ": ";
 				cout << mShow.message;
 				cout << "\n";
-				cout << "_______________________________________________________\n";
+				cout << "______________________________________________________________\n";
 		  }
 	 }
 
@@ -102,7 +102,7 @@ void User::openChat(User otherUser) {
 				ofstream chatFile(chatLoc, ios::binary|ios::app);
 				cout << "\nEnter message: ";
 				Message m;
-				cin >> m.message;
+				gets(m.message);
 				m.name = getUsername();
 				chatFile.write((char*)&m, sizeof(m));
 				chatFile.close();
