@@ -8,21 +8,21 @@
 using namespace std;
 class Message {            //each message class contains name of sender and the message
 	 public:
-        char *name, message[500];
-        void inputMessage() {
-            scanf("%499s", message);
-            //gets(message);
-        }
+		  char name[20], message[500];
+		  void inputMessage() {
+				//scanf("%499s", message);
+				gets(message);
+		  }
 };
 
 class User {
-    private:
+	 private:
         int i;      //general purpose to avoid errors for redeclaration in loops - after all the alphabet has only 26 characters
-        //Message m;
+		  //Message m;
 		  char username[20];
 		  char password[20];
 		  //char* chatName(User u);     //fn generates chat name in descending order of the usernames
-        void chatName(User u);
+		  void chatName(User u);
 		  void showChats(User u, char* c);
 		  char chatLoc[100];
 	 public:
@@ -42,8 +42,8 @@ class User {
 //char* User::chatName(User otherUser) { //fn generates chat name in descending order of the usernames      /***/
 void User::chatName(User otherUser) {
 	 int namePos = 0;
-	 //char* chatFileName/*[100]*/ = "E:\\MinuteChat\\Chats\\";
-	 char chatFileName[100] = "MinuteChat\\";
+	 char chatFileName[100] = "MinuteChat\\"; //local
+	 //char chatFileName[100] = "\\\\192.168.1.100\\student data\\prateek.a\\MC\\"; //school
 	 //cout << "Thinking about the file location..." << chatFileName;
 	 i = 0;
 	 char c1[20], c2[20];
@@ -64,8 +64,8 @@ void User::chatName(User otherUser) {
 				namePos++;
 		  }
 	 } while(i == 0);
-	 strcat(chatFileName, ".chat");
-	 chatFileName[nameLen+5] = '\0';
+	 strcat(chatFileName, ".cht");
+	 //chatFileName[nameLen+6] = '\0';
 	 cout << "\nChat file is " << chatFileName << "\n";
 	 strcpy(chatLoc, chatFileName);
 	 //return chatFileName;
@@ -78,6 +78,7 @@ void User::showChats(User otherUser, char* loc) {
 		  cout << "\n\n\t\t\tNo chats\n\n\n";
 	 } else {
 		  while(chatFileRead.read((char*)&mShow, sizeof(mShow))) {
+				//puts(mShow.name);
 				cout << mShow.name << ": ";
 				cout << mShow.message;
 				cout << "\n";
@@ -92,6 +93,8 @@ void User::openChat(User otherUser) {
 	 system("cls");
 	 //clrscr();
 	 while(i == 0) {
+          system("cls");
+		  //clrscr();
 		  i = 1;
 		  chatName(otherUser);
 		  //char* location = chatName(otherUser);
@@ -99,8 +102,8 @@ void User::openChat(User otherUser) {
 		  showChats(otherUser, chatLoc);
 		  cout << "\n1. Send message...\n2. Close chat\nAny key to refresh chat\n";
 		  //getch();
-		  cin.get(opt);
-		  //getch();
+		  //cin >> opt;
+        opt = getch();
 		  //i = 1;
 		  if(opt == '1') {
 				ofstream chatFile(chatLoc, ios::binary|ios::app);
@@ -108,7 +111,7 @@ void User::openChat(User otherUser) {
 				Message m;
 				m.inputMessage();
 				//cin >> m.message;
-				m.name = getUsername();
+				strcpy(m.name, getUsername());
 				chatFile.write((char*)&m, sizeof(m));
 				chatFile.close();
 				i = 0;
@@ -148,7 +151,6 @@ int getOption(int maxNumber) {
 }
 int main()
 {
-
 	 cout << "Welcome to The Chat Application!";
 	 cout << "\n";
 	 cout << "\n1. Login\n2.Sign up\nEnter your option: ";
@@ -158,9 +160,8 @@ int main()
     } else if(option == 2) {
         signup();
     }*/
-    User u1, u2;
+	 User u1, u2;
 	 u1.setUName();
-
 	 u1.setPass();
 	 u2.setUName();
 	 u2.setPass();
