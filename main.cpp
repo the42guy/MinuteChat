@@ -15,6 +15,9 @@ class Message {            //each message class contains name of sender and the 
 		  }
 };
 
+char userListLocation[100] = "MinuteChat\\users\\list"; //local
+//char userList[100] = "\\\\192.168.1.100\\student data\\prateek.a\\MC\\users\\list"; //school
+
 class User {
 	 private:
         int i;      //general purpose to avoid errors for redeclaration in loops - after all the alphabet has only 26 characters
@@ -40,7 +43,7 @@ class User {
 		  }
 		  int verifyPassword();
 		  void openChat(User u);
-		  void showChatList();
+		  void userArea();
 };
 int User::verifyPassword() {
     int pM = 0;     //int passwordMatch
@@ -91,6 +94,17 @@ void User::showChats(User otherUser, char* loc) {
 				cout << "____________________________________________________________\n";
 		  }
 	 }
+}
+void User::userArea() {
+    system("cls");
+    //clrscr();
+    //write here!
+    /**
+    Code here
+    Write a function to read the text file at userListLocation, and display each username, except my own.
+    Then link each username to a number and that's it.
+
+    */
 
 }
 void User::openChat(User otherUser) {
@@ -121,18 +135,16 @@ void User::openChat(User otherUser) {
 				i = 0;
 		  } else if (opt == '2') {
 				cout << "2";
-				//the chat list
+				userArea();
 		  }
 		  else {
 				cout << "else";
 				i = 0;
 		  }
 	 }
-
 }
 
-char userListLocation[100] = "MinuteChat\\users\\list"; //local
-//char userList[100] = "\\\\192.168.1.100\\student data\\prateek.a\\MC\\users\\list"; //school
+
 void login() {
     system("cls");
     //clrscr();
@@ -145,7 +157,7 @@ void login() {
     while((usersListFile.getline(name, 100, '\n')) && (j == 0)) {
         if(strcmpi(name, uName) == 0) {
             j = 1;
-            cout << "Found " << name << " or " << uName;
+            cout << "Found matching " << name << " with " << uName;
             break;
         }
     }
@@ -165,6 +177,7 @@ void login() {
         userFile.read((char *)&u, sizeof(u));
         strcpy(u.passToCheck, pass);
         if(u.verifyPassword()) {
+            cout << "Entering user area...";
             //user logged in, show chat list...
         }
     }
@@ -197,9 +210,9 @@ void signup() {
         newUserFile.close();
     }
 }
-int getOption(int maxNumber) {
-    int num;
-    cin >> num;
+char getOption(char maxNumber) {
+    char num;
+    num = getch();
     if(num > maxNumber) {
 		  cout << "Try entering a number less than " << (maxNumber + 1);
     } else {
@@ -212,11 +225,12 @@ int main()
 	 cout << "Welcome to The Chat Application!";
 	 cout << "\n";
 	 cout << "\n1. Login\n2.Sign up\nEnter your option: ";
-    int option = getOption(2);
-    if(option == 1) {
-            getch();
+    char option = getOption('2');
+    if(option == '1') {
+        cout << "Logging in...";
         login();
-    } else if(option == 2) {
+    } else if(option == '2') {
+        cout << "Signing up...";
         signup();
     }
 	 User u1, u2;
