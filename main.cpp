@@ -8,7 +8,7 @@
 using namespace std;
 class Message {            //each message class contains name of sender and the message
 	 public:
-		  char name[20], message[500];
+		  char name[20], message[2048];
 		  void inputMessage() {
 				//scanf("%499s", message);
 				gets(message);
@@ -26,6 +26,7 @@ class User {
 		  void showChats(User u, char* c);
 		  char chatLoc[100];
 	 public:
+	     char passToCheck[20];
 		  char* getUsername() {
 				return username;
 		  };
@@ -37,9 +38,17 @@ class User {
 				cout << "\nEnter a password without any special characters or spaces: ";
 				gets(password);
 		  }
+		  int verifyPassword();
 		  void openChat(User u);
+		  void showChatList();
 };
-//char* User::chatName(User otherUser) { //fn generates chat name in descending order of the usernames      /***/
+int User::verifyPassword() {
+    int pM = 0;     //int passwordMatch
+    if(strcmpi(passToCheck, password) == 0) {
+        pM = 2;
+    }
+    return pM;
+}
 void User::chatName(User otherUser) {
 	 int namePos = 0;
 	 char chatFileName[100] = "MinuteChat\\"; //local
@@ -50,7 +59,6 @@ void User::chatName(User otherUser) {
 	 strcpy(c1, getUsername());
 	 strcpy(c2, otherUser.getUsername());
 	 int nameLen = strlen(getUsername()) + strlen(otherUser.getUsername()) + strlen(chatFileName);
-	 //cout << "\nCopied names as " << c1 << c2;
 	 do {
 		  if(c1[namePos] > c2[namePos]) {
 				strcat(chatFileName, getUsername());
@@ -65,10 +73,8 @@ void User::chatName(User otherUser) {
 		  }
 	 } while(i == 0);
 	 strcat(chatFileName, ".cht");
-	 //chatFileName[nameLen+6] = '\0';
 	 cout << "\nChat file is " << chatFileName << "\n";
 	 strcpy(chatLoc, chatFileName);
-	 //return chatFileName;
 }
 void User::showChats(User otherUser, char* loc) {
 	 ifstream chatFileRead(loc, ios::binary);
@@ -82,7 +88,7 @@ void User::showChats(User otherUser, char* loc) {
 				cout << mShow.name << ": ";
 				cout << mShow.message;
 				cout << "\n";
-				cout << "___________________________________________________________\n";
+				cout << "____________________________________________________________\n";
 		  }
 	 }
 
@@ -101,9 +107,7 @@ void User::openChat(User otherUser) {
 		  cout << "Chatting with " << otherUser.getUsername() << "\n\n";
 		  showChats(otherUser, chatLoc);
 		  cout << "\n1. Send message...\n2. Close chat\nAny key to refresh chat\n";
-		  //getch();
-		  //cin >> opt;
-        opt = getch();
+          opt = getch();
 		  //i = 1;
 		  if(opt == '1') {
 				ofstream chatFile(chatLoc, ios::binary|ios::app);
@@ -118,9 +122,6 @@ void User::openChat(User otherUser) {
 		  } else if (opt == '2') {
 				cout << "2";
 				//the chat list
-		  } else if (opt == '3') {
-				cout << "3";
-				i = 1;
 		  }
 		  else {
 				cout << "else";
@@ -130,14 +131,73 @@ void User::openChat(User otherUser) {
 
 }
 
-class Chat {
-};
-
-
+char userListLocation[100] = "MinuteChat\\users\\list"; //local
+//char userList[100] = "\\\\192.168.1.100\\student data\\prateek.a\\MC\\users\\list"; //school
 void login() {
-
+    system("cls");
+    //clrscr();
+    cout << "Enter your username: ";
+    char name[20], uName[20], pass[20];
+    gets(uName);
+    User u;
+    int j = 0;
+    ifstream usersListFile(userListLocation);
+    while((usersListFile.getline(name, 100, '\n')) && (j == 0)) {
+        if(strcmpi(name, uName) == 0) {
+            j = 1;
+            cout << "Found " << name << " or " << uName;
+            break;
+        }
+    }
+    if(j == 0) {
+        cout << "\nInvalid username, press any key to try again!";
+        getch();
+        login();
+    } else {
+        cout << "\nEnter password: ";
+        gets(pass);
+        char userFileLocation[100] = "MinuteChat\\users\\"; //local
+        //char userFile[100] = "\\\\192.168.1.100\\student data\\prateek.a\\MC\\users\\"; //school
+        User u;
+        strcat(userFileLocation, uName);
+        strcat(userFileLocation, ".usr");
+        ifstream userFile(userFileLocation, ios::binary);
+        userFile.read((char *)&u, sizeof(u));
+        strcpy(u.passToCheck, pass);
+        if(u.verifyPassword()) {
+            //user logged in, show chat list...
+        }
+        main();
+    }
 }
 void signup() {
+    User q;
+    q.setUName();
+    char name[20];
+    int j = 0;
+    ifstream usersListFile(userListLocation);
+    while((usersListFile.getline(name, 100, '\n')) && (j == 0)) {
+        if(strcmpi(name, q.getUsername()) == 0) {
+            j = 1;
+            cout << "Found existing user with name " << name;
+            cout << "\nPress any key to retry";
+            getch();
+            signup();
+        }
+    }
+    if(j == 0) {
+        q.setPass();
+        ofstream usersFile(userListLocation, ios::app);
+        usersFile << q.getUsername() << "\n";
+        char userFileLocation[100] = "MinuteChat\\users\\"; //local
+        //char userFile[100] = "\\\\192.168.1.100\\student data\\prateek.a\\MC\\users\\"; //school
+        strcat(userFileLocation, q.getUsername());
+        strcat(userFileLocation, ".usr");
+        ofstream newUserFile(userFileLocation, ios::binary);
+        newUserFile.write((char*)&q, sizeof(q));
+        newUserFile.close();
+        main();
+    }
 }
 int getOption(int maxNumber) {
     int num;
@@ -154,17 +214,17 @@ int main()
 	 cout << "Welcome to The Chat Application!";
 	 cout << "\n";
 	 cout << "\n1. Login\n2.Sign up\nEnter your option: ";
-    /*int option = getOption(2);
+    int option = getOption(2);
     if(option == 1) {
         login();
     } else if(option == 2) {
         signup();
-    }*/
+    }
 	 User u1, u2;
-	 u1.setUName();
+	 /*u1.setUName();
 	 u1.setPass();
 	 u2.setUName();
 	 u2.setPass();
-	 u1.openChat(u2);
+	 u1.openChat(u2);*/
     return 0;
 }
