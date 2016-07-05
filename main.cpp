@@ -167,7 +167,6 @@ void login() {
         if(u.verifyPassword()) {
             //user logged in, show chat list...
         }
-        main();
     }
 }
 void signup() {
@@ -196,7 +195,6 @@ void signup() {
         ofstream newUserFile(userFileLocation, ios::binary);
         newUserFile.write((char*)&q, sizeof(q));
         newUserFile.close();
-        main();
     }
 }
 int getOption(int maxNumber) {
@@ -216,6 +214,7 @@ int main()
 	 cout << "\n1. Login\n2.Sign up\nEnter your option: ";
     int option = getOption(2);
     if(option == 1) {
+            getch();
         login();
     } else if(option == 2) {
         signup();
