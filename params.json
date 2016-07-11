@@ -1,6 +1,6 @@
 {
   "name": "MinuteChat",
   "tagline": "A tiny chat application made using basic C++ for a school project.",
-  "body": "# Welcome to Minute Chat's GitHub page\r\n\r\n### Made using C++\r\nBeneath Minute Chat lies one of the most trusted languages - C++. You can rest assured about Minute Chat's performance and its stability.\r\n\r\n### Works over the LAN \r\nWell, where else? A school project needs to run on the LAN. It will use a basic server-client topology, with the program files stored at a network location that can be accessed by all the users of the chat program.\r\n\r\n### Authors and Contributors\r\nCreated by @the42guy and Mayank Jain.\r\n",
+  "body": "# Welcome to Minute Chat's GitHub page\r\n\r\n### Made using C++\r\nBeneath Minute Chat lies one of the most trusted languages - C++. You can rest assured about Minute Chat's performance and its stability.\r\n\r\n### Works over the LAN \r\nWell, where else? A school project needs to run on the LAN. It uses a basic server-client topology, with the program files stored at a network location that can be accessed by all the users of the chat program. \r\n\r\n### Fast\r\nQuick and light on resources. That's to be expected from a ~10kB program. Means about any computer from this century can run Minute Chat. Reading the chat files over the LAN is also not a problem, as typical chat files can be read within seconds.\r\n\r\n### Authors and Contributors\r\nCreated by @the42guy and Mayank Jain.\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
