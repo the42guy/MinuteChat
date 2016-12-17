@@ -27,16 +27,15 @@ public class IO {
     }
     boolean isEmpty(String s) {
         boolean empty = true;
-        if(s == "") {
+        if((s.equalsIgnoreCase("")) || (s == null)) {
             empty = false;
         }
         return empty;
     }
     IO(String rootLocation, String chatLocation, String dataLocation) {
-
-        this.rootLocation = rootLocation;
-        this.chatLocation = chatLocation;
-        this.dataLocation = dataLocation;
+        this.rootLocation = isEmpty(rootLocation) ? this.rootLocation : rootLocation;
+        this.chatLocation = isEmpty(chatLocation) ? this.chatLocation : chatLocation;
+        this.dataLocation = isEmpty(dataLocation) ? this.dataLocation : dataLocation;
         usersListFile = new File(rootLocation + dataLocation + "names.dat");
         try{
             Scanner usersFileScanner = new Scanner(usersListFile);
