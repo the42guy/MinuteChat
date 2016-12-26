@@ -11,12 +11,13 @@ public class IO {
     private static String dataLocation = "dat/";
     private File usersListFile;
     private RandomAccessFile usersFileRAF;
+    private User thisUser;              //one instance of IO per user. As chatting will be done via different executables.
     IO() {
         usersListFile = new File(rootLocation + dataLocation + "names.dat");
         try{
             if(usersListFile.exists()) {
                 out.printf("\nOkay to go, user list file exists!\n");
-                usersFileRAF = new RandomAccessFile(usersListFile, "rw");
+                usersFileRAF = new RandomAccessFile(usersListFile, "rw");                       //A new RAF in RW mode to access/modify the users file from anywhere
             } else {
                 out.printf("\nUser list file does not exists!");
                 System.exit(1);
@@ -39,6 +40,11 @@ public class IO {
         usersListFile = new File(rootLocation + dataLocation + "names.dat");
         try{
             Scanner usersFileScanner = new Scanner(usersListFile);
+            /**@TODO
+             * Add a RAF here?
+             * Migrate the default constructor here?
+             * Conquer the world?
+             * */
         } catch(FileNotFoundException f) {
             out.printf("\nFileNotFoundException: %s", f.getMessage());
         }
@@ -57,7 +63,6 @@ public class IO {
         } catch (IOException e) {
             out.printf("\nIOException: &s", e.getMessage());
         }
-
         return exists;
     }
 
@@ -76,9 +81,11 @@ public class IO {
                     hashNeeded = hashNeeded.hashCode() + "";
                     s1 = s.nextLine();
                     s2 = s.nextLine();
-                    out.printf("\nChecking the user file for \n%s vs %s\n%s vs %s\n", u.getUsername(), s1, hashNeeded, s2);
+                    out.printf("\nChecking the user file for \n(Wanted value) \t(Stored value)\n%s \tvs \t%s\n%s \tvs \t%s\n", u.getUsername(), s1, hashNeeded, s2);
                     if((s1.equals(u.getUsername())) && (s2.equals(hashNeeded))) {
                         success = true;
+                        thisUser = u;
+                        panel();
                     }
                 } catch (FileNotFoundException f) {
                     out.printf("\nFileNotFoundException: %s", f.getMessage());
@@ -103,20 +110,22 @@ public class IO {
                     bw.write(u.getUsername());
                     bw.flush();
                     bw.close();
-                    //Generate user file and put in the basic information
+                    //Generating user file and put in the basic information...
                     File userFile = new File(rootLocation + dataLocation + u.getUsernameHash());
                     userFile.createNewFile();
                     BufferedWriter userWriter = new BufferedWriter(new FileWriter(userFile));
                     userWriter.write(u.getUsername());
                     userWriter.newLine();
                     String data = u.getUsernameHash() + u.getPasswordHash() + "";
-                    data = data.hashCode() + "";
+                    data = data.hashCode() + "";                    //is this really useful? Isn't it just easier (and effective) to use the concocted hash string?
                     userWriter.write(data);
                     userWriter.flush();
                     userWriter.close();
                     out.printf("\nWriting the following to the user file: \n%s\n%s", u.getUsername(), data);
                     //...and it was all successful
                     success = true;
+                    thisUser = u;
+                    panel();
                 } catch(IOException e) {
                     out.printf("\nIOException: %s", e.getMessage());
                 }
@@ -127,8 +136,26 @@ public class IO {
         return success;
     }
 
+    private void panel() {
+        out.printf("\nWelcome, &s\n\n1: Chat\n2: User profile\n3: Sign out", thisUser.getUsername());
+
+    }
+    private void renderProfile(User u) {
+        /**@TODO*/
+        //need a function to directly pick up usernames from file...
+
+
+    }
+    private void chatSelector() {
+
+    }
+    private void chatWith(User u) {
+
+    }
+
     private void updateUserFile() {
         //invoked after new chat or just before logout?
+        //preferably after each chat, as it will be safer in case of errors
     }
 
     public String generateChatName(User u1, User u2) {
